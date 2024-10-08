@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { RefObject } from "react";
 import {
   motion,
   useAnimationFrame,
@@ -22,7 +22,7 @@ export function Button({
 }: {
   borderRadius?: string;
   children: React.ReactNode;
-  as?: any;
+  as?: any; // Can use a more specific type if needed, like React.ElementType
   containerClassName?: string;
   borderClassName?: string;
   duration?: number;
@@ -32,7 +32,7 @@ export function Button({
   return (
     <Component
       className={cn(
-        "bg-transparent relative text-xl  h-16 w-40 p-[1px] overflow-hidden ",
+        "bg-transparent relative text-xl h-16 w-40 p-[1px] overflow-hidden",
         containerClassName
       )}
       style={{
@@ -82,7 +82,7 @@ export const MovingBorder = ({
   ry?: string;
   [key: string]: any;
 }) => {
-  const pathRef = useRef<any>();
+  const pathRef = useRef<SVGRectElement>(null); // Updated type from any to SVGRectElement
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {

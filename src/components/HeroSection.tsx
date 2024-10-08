@@ -4,7 +4,7 @@ import { Button } from "./ui/moving-border";
 
 function HeroSection() {
   return (
-    <div className="h-auto md:h-[46rem] w-full rounded-md flex flex-col items-center justify-center relative overflow-hidden mx-auto py-10 md:py-0">
+    <div className="h-auto md:h-[46rem] w-full rounded-md flex flex-col items-center justify-center relative overflow-hidden mx-auto py-10 md:py-0 ">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill="#ffb07c"
@@ -18,7 +18,7 @@ function HeroSection() {
         </h1>
         <p className="mt-10 font-serif text-base md:text-2xl text-neutral-300 max-w-lg mx-auto">
           Explore our in-depth music courses and elevate your musical journey
-          today. Whether you're just starting out or aiming to sharpen your
+          today. Whether you are just starting out or aiming to sharpen your
           skills, join us and discover your full potential.
         </p>
         <div className="mt-10">
