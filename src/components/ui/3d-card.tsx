@@ -1,3 +1,7 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+
 import React, {
   createContext,
   useState,
@@ -6,19 +10,14 @@ import React, {
   useEffect,
 } from "react";
 
-// Utility function to join class names
-const cn = (...classes: (string | undefined)[]) => {
-  return classes.filter(Boolean).join(" ");
-};
-
 const MouseEnterContext = createContext<
   [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
 >(undefined);
 
 export const CardContainer = ({
   children,
-  className = "", // Default to an empty string
-  containerClassName = "", // Default to an empty string
+  className,
+  containerClassName,
 }: {
   children?: React.ReactNode;
   className?: string;
@@ -36,17 +35,16 @@ export const CardContainer = ({
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsMouseEntered(true);
+    if (!containerRef.current) return;
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
     setIsMouseEntered(false);
-    if (containerRef.current) {
-      containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
-    }
+    containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
-
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
@@ -54,7 +52,9 @@ export const CardContainer = ({
           "py-20 flex items-center justify-center",
           containerClassName
         )}
-        style={{ perspective: "1000px" }}
+        style={{
+          perspective: "1000px",
+        }}
       >
         <div
           ref={containerRef}
@@ -65,7 +65,9 @@ export const CardContainer = ({
             "flex items-center justify-center relative transition-all duration-200 ease-linear",
             className
           )}
-          style={{ transformStyle: "preserve-3d" }}
+          style={{
+            transformStyle: "preserve-3d",
+          }}
         >
           {children}
         </div>
@@ -76,7 +78,7 @@ export const CardContainer = ({
 
 export const CardBody = ({
   children,
-  className = "", // Default to empty string
+  className,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -96,7 +98,7 @@ export const CardBody = ({
 export const CardItem = ({
   as: Tag = "div",
   children,
-  className = "", // Default to empty string
+  className,
   translateX = 0,
   translateY = 0,
   translateZ = 0,
@@ -143,9 +145,10 @@ export const CardItem = ({
   );
 };
 
+// Create a hook to use the context
 export const useMouseEnter = () => {
   const context = useContext(MouseEnterContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useMouseEnter must be used within a MouseEnterProvider");
   }
   return context;
